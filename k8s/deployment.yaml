@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-web
+  labels:
+    app: demo-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-web
+  template:
+    metadata:
+      labels:
+        app: demo-web
+    spec:
+      containers:
+        - name: demo-web
+          image: fevoll/dataops-topic13:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
