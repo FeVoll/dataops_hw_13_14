@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: fevoll/dataops-topic13
+  tag: "1.0.0"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: false
+
+resources:
+  enabled: true
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+sharedMemory:
+  enabled: true
+  sizeLimit: "128Mi"
